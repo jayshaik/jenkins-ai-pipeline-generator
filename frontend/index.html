@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Jenkins AI Generator</title>
+</head>
+<body>
+  <h2>🚀 Jenkins Pipeline Generator</h2>
+
+  <select id="language">
+    <option>Node.js</option>
+    <option>Java</option>
+    <option>Python</option>
+  </select>
+
+  <select id="build_tool">
+    <option>npm</option>
+    <option>Maven</option>
+    <option>Gradle</option>
+  </select>
+
+  <select id="deployment">
+    <option>Docker</option>
+    <option>EC2</option>
+  </select>
+
+  <button onclick="generate()">Generate</button>
+
+  <pre id="output"></pre>
+
+  <script>
+    async function generate() {
+      const response = await fetch("http://127.0.0.1:8000/generate", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          language: document.getElementById("language").value,
+          build_tool: document.getElementById("build_tool").value,
+          deployment: document.getElementById("deployment").value
+        })
+      });
+
+      const data = await response.json();
+      document.getElementById("output").innerText = data.jenkinsfile;
+    }
+  </script>
+</body>
+</html>
